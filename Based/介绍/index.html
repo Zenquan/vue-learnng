@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">{{message}}
+        <!-- v-bind可以简写成: -->
+        <span :title="message">鼠标悬停几秒钟查看此处动态绑定的提示信息！</span>
+        <div v-if="seen" @click="isSeen()">你能看见我</div>
+        <p>{{message}}</p>
+        <!-- v-on:click===@click -->
+        <button @click="reverseMessage">逆转</button>
+        <p>{{bindingMessage}}</p>
+        <input type="text" v-model="bindingMessage">
+    </div>
+    <div id="app2">
+        <ol>
+            <!-- 创建一个 todo-item 组件的实例 -->
+            <todo-item v-for='item in todos' :todo='item' :key='item.id'></todo-item>
+        </ol>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            // el: document.getElementById('app'),
+            data: {
+                message: 'Hello Vue!'+new Date().toLocaleString(),
+                seen: true,
+                bindingMessage: 'vue-learning'
+            },
+            methods: {
+                // isSeen() {
+                //     if($seen) {
+                //         return !$seen;
+                //     }else {
+                //         return $seen;
+                //     }
+                // }
+                reverseMessage() {
+                    this.message = this.message.split('').reverse().join('');
+                }
+            }
+        })
+        var app2 = new Vue({
+            el: '#app2',
+            data: {
+                todos: [
+                    { text: '学习 JavaScript' },
+                    { text: '学习 Vue' },
+                    { text: '整个牛项目' }
+                ]
+            }
+        })
+        Vue.component('todo-item', {
+            props: ['todo'],
+            // 模板
+            template: '<li>{{todo.text}}</li>'
+        })
+    </script>
+</body>
+</html>

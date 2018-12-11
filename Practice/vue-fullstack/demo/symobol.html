@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 无法实现属性私有化
+        // var Person = (function(){
+        //     function p(name, gender) {
+        //         this.name = name;
+        //         this.gender = gender;
+        //     }
+
+        //     return p;
+        // })()
+        // 通过闭包实现属性私有化
+        // var Person = (function(){
+        //     var _gender = '';
+        //     function p(name, gender) {
+        //         this.name = name;
+        //         _gender = gender;
+        //     }
+        //     p.prototype.getGender = function() {
+        //         return _gender;
+        //     }
+
+        //     return p;
+        // })()
+        // 通过symbol实现属性私有化
+        var Person = (function () {
+                var _gender = Symbol();
+                function p(name, gender) {
+                    this.name = name;
+                    this[_gender] = gender;
+                }
+
+                return p;
+            })()
+
+        var p1 = new Person('zenquan', 'F');
+        console.log(p1._gender);
+        // console.log(p1.getGender());
+    </script>
+</body>
+</html>

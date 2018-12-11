@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{foo}}</p>
+        <button @click='foo="baz"'>Change it</button>
+    </div>
+    <script>
+        var obj = {
+            foo: 'bar'
+        }
+        // Object.freeze()，这会阻止修改现有的属性，也意味着响应系统无法再追踪变化。
+        // Object.freeze(obj);
+        var vm = new Vue({
+            el: '#app',
+            data: obj,
+            // 实例生命周期钩子函数
+            beforeCreate() {
+                console.log('beforeCreate');
+            },
+            created() {
+                console.log('create');
+            },
+            beforeMount() {
+                console.log('beforeMount');
+            },
+            mounted() {
+                console.log('mouted');
+            },
+            beforeUpdate() {
+                console.log('beforeUpdate');
+            },
+            updated() {
+                console.log('updated');
+            }, 
+            // render() {
+            //     console.log('render');
+            // }           
+        })
+        console.log(vm.$data===obj);
+        console.log(vm.$el===document.getElementById('app'));
+        // $watch 是一个实例方法
+        vm.$watch('foo', function(newValue, oldValue) {
+            // 这个回调将在 `vm.foo` 改变后调用
+            console.log(newValue, oldValue);
+        })
+    </script>
+</body>
+</html>
